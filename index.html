@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <!-- Meta tags for social media banners, these should be filled in appropriatly as they are your "business card" -->
+  <!-- Replace the content tag with appropriate information -->
+  <meta name="description" content="Few-Shot Concept Learning with LLMs">
+  <meta property="og:title" content="CoLLEGe: Concept Learning"/>
+  <meta property="og:description" content="SOCIAL MEDIA DESCRIPTION TAG TAG"/>
+  <meta property="og:url" content="URL OF THE WEBSITE"/>
+  <!-- Path to banner image, should be in the path listed below. Optimal dimenssions are 1200X630-->
+  <meta property="og:image" content="static/image/your_banner_image.png" />
+  <meta property="og:image:width" content="1200"/>
+  <meta property="og:image:height" content="630"/>
+
+
+  <meta name="twitter:title" content="TWITTER BANNER TITLE META TAG">
+  <meta name="twitter:description" content="TWITTER BANNER DESCRIPTION META TAG">
+  <!-- Path to banner image, should be in the path listed below. Optimal dimenssions are 1200X600-->
+  <meta name="twitter:image" content="static/images/your_twitter_banner_image.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <!-- Keywords for your paper to be indexed by-->
+  <meta name="keywords" content="KEYWORDS SHOULD BE PLACED HERE">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+  <title>CoLLEGe: Concept Embedding Generation for Large Language Models</title>
+  <link rel="icon" type="image/x-icon" href="static/images/college_logo.webp">
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+  rel="stylesheet">
+
+  <link rel="stylesheet" href="static/css/bulma.min.css">
+  <link rel="stylesheet" href="static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+  href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="static/css/index.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://documentcloud.adobe.com/view-sdk/main.js"></script>
+  <script defer src="static/js/fontawesome.all.min.js"></script>
+  <script src="static/js/bulma-carousel.min.js"></script>
+  <script src="static/js/bulma-slider.min.js"></script>
+  <script src="static/js/index.js"></script>
+</head>
+<body>
+  
+
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            <h1 class="title is-1 publication-title">CoLLEGe: Concept Embedding Generation for Large Language Models</h1>
+            <div class="is-size-5 publication-authors">
+              <!-- Paper authors -->
+              <span class="author-block">
+                <a href="https://rteehas.github.io/" target="_blank">Ryan Teehan</a>,</span>
+                <span class="author-block">
+                  <a href="https://cims.nyu.edu/~brenden/" target="_blank">Brenden Lake</a>,</span>
+                  <span class="author-block">
+                    <a href="https://mengyeren.com/" target="_blank">Mengye Ren</a>
+                  </span>
+                  </div>
+
+                  <div class="is-size-5 publication-authors">
+                    <span class="author-block">New York University<br>COLM 2024</span>
+<!--                     <span class="eql-cntrb"><small><br><sup>*</sup>Indicates Equal Contribution</small></span> -->
+                  </div>
+
+                  <div class="column has-text-centered">
+                    <div class="publication-links">
+                         <!-- Arxiv PDF link -->
+                      <span class="link-block">
+                        <a href="https://openreview.net/forum?id=Fkr1yVUb9G#discussion" target="_blank"
+                        class="external-link button is-normal is-rounded is-dark">
+                        <span class="icon">
+                          <i class="fas fa-file-pdf"></i>
+                        </span>
+                        <span>Paper</span>
+                      </a>
+                    </span>
+
+                  <!-- Github link -->
+                  <span class="link-block">
+                    <a href="https://github.com/Agentic-Learning-AI-Lab/new-token-learning" target="_blank"
+                    class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="fab fa-github"></i>
+                    </span>
+                    <span>Code</span>
+                  </a>
+                </span>
+
+                <!-- ArXiv abstract Link -->
+                <span class="link-block">
+                  <a href="https://arxiv.org/abs/2403.15362" target="_blank"
+                  class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                    <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Paper abstract -->
+<section class="section hero is-light">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            Current language models are unable to quickly learn new concepts on the fly, often requiring a more involved finetuning process to learn robustly. Prompting in-context is not robust to context distractions, and often fails to confer much information about the new concepts. Classic methods for few-shot word learning in NLP, relying on global word vectors, are less applicable to large language models. In this paper, we introduce a novel approach named CoLLEGe (Concept Learning with Language Embedding Generation) to modernize few-shot concept learning. CoLLEGe is a meta-learning framework capable of generating flexible embeddings for new concepts using a small number of example sentences or definitions. Our primary meta-learning objective is simply to facilitate a language model to make next word predictions in forthcoming sentences, making it compatible with language model pretraining. We design a series of tasks to test new concept learning in challenging real-world scenarios, including new word acquisition, definition inference, and verbal reasoning, and demonstrate that our method succeeds in each setting without task-specific training.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End paper abstract -->
+<style>
+  .section.is-small {
+    padding: 1.5rem 1.5rem;
+  }
+  .section + .section {
+    padding-top: 0;
+  }
+</style>
+<section class="section hero">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Building Machines that Learn Concepts Quickly</h2>
+        <div class="content has-text-justified">
+          <p>
+            Imagine a student first attending a philosophy lecture on epistemology, wherein their professor discusses and critiques various philosophical positions and uses unfamiliar terms for newly-encountered concepts. After only a few examples, the student can quickly build an intuition about these new concepts and consolidate this knowledge. 
+          </p>
+          <p>
+            In this way, humans can quickly infer the meaning of new words, even having only heard them used a few times, in settings like the philosophy lecture above or when encountering slang terms on social media, but LLMs fail at doing the same.
+          </p>
+          <p>
+            While humans can quickly abstract from a few examples to consolidate new knowledge, LLMs attempt to directly find and re-use information in the available context.
+          </p>
+          <p>We:</p>
+          <ul>
+            <li>Develop a simple add-on learnable module for few-shot, LLM concept learning, which transfers to diverse tasks with <b>no additional finetuning</b></li>
+            <li>Build a few-shot concept learning dataset from a large pretraining dataset (The Pile)</li>
+            <li>Present three challenging datasets for new concept learning, CoLLEGe-GRE, CoLLEGe-DefGen, and CoLLEGe-Slang,
+              used to measure the effectiveness of few-shot concept learning methods for LLMs. These
+              datasets test both general and complex concept knowledge, naturalistic acquisition of
+              new concepts, and relational abstraction</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <h3 class="title is-4 has-text-centered mb-5">Method</h3>
+    <div class="columns is-centered">
+      <div class="column is-four-fifths">
+        <figure class="image">
+          <img src="static/images/colm_paper_arch.svg" alt="CoLM Paper Architecture" style="width: 100%; height: auto;">
+          <figcaption class="has-text-justified mt-4">
+            We design a few-shot learning method which generates a new concept embedding using support sequences containing a new concept token. This embedding is optimized to allow a frozen pretrained LLM to model a query sequence containing the same new token.
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section hero">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Task-General Training for Zero-Shot Transfer</h2>
+        <div class="content has-text-justified">
+          <p>
+            We select words to mask with new tokens based on frequency and construct few-shot support and query sequences from a large pretraining dataset, the Pile
+          </p>
+          <p>Training mimics pretraining, allowing transfer to diverse tasks zero-shot, with <b>no additional finetuning</b> to transfer to our tasks
+          </p>
+          <p>
+            We train by minimizing <b>cross entropy losses</b> on positive and negative examples as well as <b>distilling from the base LLM</b>
+          </p>
+          <div class="columns is-mobile is-vcentered">
+            <div class="column is-flex is-align-items-center">
+              <figure class="image">
+                <img src="static/images/college_losses.png" alt="CoLM Losses" style="width: 100%; height: auto;">
+                <figcaption class="has-text-justified mt-2">
+                  We optimize using a combination of cross entropy losses and distillation losses.
+                </figcaption>
+              </figure>  
+            </div>
+            <div class="column">
+              <figure class="image">
+                <img src="static/images/college_data.png" alt="CoLM Data" style="width: 100%; height: auto;">
+                <figcaption class="has-text-justified mt-2">
+                Our dataset consists of few-shot support and query sequences adapted the Books3, Books2, and Pile-CC subsets of The Pile.
+                </figcaption>
+              </figure>  
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- Second Paragaph -->
+<section class="section hero">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <!-- <div class="column is-four-fifths"> -->
+        <h3 class="title is-3">With CoLLEGe we can...</h3>
+        <!-- </div> -->
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section is-small">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h3 class="title is-4" style="font-size: 20px;">Solve GRE Problems...</h3>
+        <div class="columns is-mobile">
+          <div class="column">
+            <figure class="image">
+              <img src="static/images/few_shot_gre.png" alt="CoLM Paper Architecture" style="width: 100%; height: auto;">
+              <figcaption class="has-text-centered mt-4">
+                <!-- Figure 1: CoLM Paper Architecture -->
+              </figcaption>
+            </figure>
+          </div>
+          <div class="column">
+            <figure class="image">
+              <img src="static/images/few_shot_gre.png" alt="Second Image Description" style="width: 100%; height: auto;">
+              <figcaption class="has-text-centered mt-4">
+                <!-- Figure 2: Description of Second Image -->
+              </figcaption>
+            </figure>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section is-small">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h3 class="title is-4" style="font-size: 20px;">Identify Twitter Slang...</h3>
+        <div class="columns is-mobile">
+          <figure class="image">
+            <img src="static/images/twitter_college.png" alt="CoLM Paper Architecture" style="width: 100%; height: auto;">
+            <figcaption class="has-text-centered mt-4">
+              <!-- Figure 1: CoLM Paper Architecture -->
+            </figcaption>
+          </figure>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section is-small">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h3 class="title is-4" style="font-size: 20px;">& Define New Concepts</h3>
+        <div class="content">
+          <figure class="image mb-6">
+            <img src="static/images/college_willies.png" alt="CoLLEGe Willies Example" style="width: 100%; height: auto;">
+            <figcaption class="has-text-centered mt-4">
+              <!-- Figure 1: CoLLEGe Willies Example -->
+            </figcaption>
+          </figure>
+          <figure class="image">
+            <img src="static/images/college_mushroom.png" alt="Second Image Description" style="width: 100%; height: auto;">
+            <figcaption class="has-text-centered mt-4">
+              <!-- Figure 2: Description of Second Image -->
+            </figcaption>
+          </figure>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- Paper abstract -->
+<section class="section hero">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Conclusion & Future Work</h2>
+        <div class="content has-text-justified">
+          <p>
+            CoLLEGe can learn general purpose embeddings for new concepts which outperform In-Context Learning on all tasks without additional finetuning. Using task-general training, CoLLEGe can solve GRE problems involving new concepts, identify unknown slang terms, and generate definitions with only a few examples.
+          </p>
+          <p>
+            This opens the door for future work focusing on <b>online continual concept acquisition</b>, which consists of  incrementally identifying and compressing concepts from a stream of experience.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End paper abstract -->
+
+
+
+
+
+<!--BibTex citation -->
+  <section class="section" id="BibTeX">
+    <div class="container is-max-desktop content">
+      <h2 class="title">BibTeX</h2>
+      <pre><code>@inproceedings{
+teehan2024college,
+title={Co{LLEG}e: Concept Embedding Generation for Large Language Models},
+author={Ryan Teehan and Brenden Lake and Mengye Ren},
+booktitle={First Conference on Language Modeling},
+year={2024},
+url={https://openreview.net/forum?id=Fkr1yVUb9G}
+}</code></pre>
+    </div>
+</section>
+<!--End BibTex citation -->
+
+
+  <footer class="footer">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+
+          <p>
+            This page was built using the <a href="https://github.com/eliahuhorwitz/Academic-project-page-template" target="_blank">Academic Project Page Template</a> which was adopted from the <a href="https://nerfies.github.io" target="_blank">Nerfies</a> project page.
+            You are free to borrow the of this website, we just ask that you link back to this page in the footer. <br> This website is licensed under a <a rel="license"  href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank">Creative
+            Commons Attribution-ShareAlike 4.0 International License</a>.
+          </p>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- Statcounter tracking code -->
+  
+<!-- You can add a tracker to track page visits by creating an account at statcounter.com -->
+
+    <!-- End of Statcounter Code -->
+
+  </body>
+  </html>
