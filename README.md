@@ -1,1 +1,1 @@
-# new-token-learning
+# CoLLEGe
