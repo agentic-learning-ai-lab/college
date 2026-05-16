@@ -20,7 +20,7 @@ from transformers import (
 from .arguments import build_llama_training_parser
 from .checkpoints import create_checkpoint_directories
 from .configs import AggregatorConfig
-from .modeling_llama import MorphMemoryModelLlama
+from .modeling_llama import CollegeLlama
 from .utils import seed_worker
 
 
@@ -344,7 +344,7 @@ def main(argv=None):
     first_lm, second_lm = load_models(args, accelerator)
     memory_config = build_memory_config()
     layers = [-index for index in range(args.layer, args.layer + args.num_feature_layers)]
-    model = MorphMemoryModelLlama(
+    model = CollegeLlama(
         first_lm,
         second_lm,
         len(nonces),
@@ -594,12 +594,12 @@ def main(argv=None):
                         accelerator.gather(total_test_distillation_loss).mean().item() / denom
                     )
                 if args.run_gre_eval:
-                    import run_gre_eval_llama
+                    from college.evaluation.gre import gre_eval
 
-                    gre_scores = run_gre_eval_llama.gre_eval(
+                    gre_scores = gre_eval(
                         emb_gen_model=model,
-                        tokenizerMLM=tokenizer_mlm,
-                        tokenizerTask=tokenizer_task,
+                        tokenizer_mlm=tokenizer_mlm,
+                        tokenizer_task=tokenizer_task,
                         device=accelerator.device,
                     )
                     for key, value in gre_scores.items():

@@ -1,4 +1,5 @@
 from math import sqrt
+from pathlib import Path
 from typing import Dict, List, Optional
 
 import torch
@@ -96,7 +97,7 @@ class EmbeddingGenerator(nn.Module):
         return self.input_emb_head(concept_embed), self.output_emb_head(concept_embed)
 
 
-class MorphMemoryModelLlama(nn.Module):
+class CollegeLlama(nn.Module):
     def __init__(
         self,
         first_lm,
@@ -131,6 +132,126 @@ class MorphMemoryModelLlama(nn.Module):
             self.emb_gen.init_weights(input_mean_embed, output_mean_embed)
 
         self.freeze()
+
+    @staticmethod
+    def resolve_checkpoint_child(checkpoint_path: str, name: str) -> str:
+        checkpoint = Path(checkpoint_path)
+        child = checkpoint / name
+        if child.exists():
+            return str(child)
+
+        legacy_child = Path(str(checkpoint) + name)
+        if legacy_child.exists():
+            return str(legacy_child)
+
+        return str(child)
+
+    @staticmethod
+    def _strip_state_prefix(state_dict, prefix: str):
+        if not all(key.startswith(prefix) for key in state_dict):
+            return state_dict
+        return {key[len(prefix) :]: value for key, value in state_dict.items()}
+
+    @classmethod
+    def load_embedding_generator_state(cls, checkpoint_path: str):
+        checkpoint = Path(checkpoint_path)
+        pytorch_state = checkpoint / "pytorch_model.bin"
+        if pytorch_state.exists():
+            state = torch.load(str(pytorch_state), map_location="cpu")
+        else:
+            safetensors_state = checkpoint / "model.safetensors"
+            if not safetensors_state.exists():
+                raise FileNotFoundError(
+                    f"Could not find pytorch_model.bin or model.safetensors in checkpoint {checkpoint_path!r}."
+                )
+            from safetensors.torch import load_file
+
+            state = load_file(str(safetensors_state), device="cpu")
+
+        if "state_dict" in state:
+            state = state["state_dict"]
+        state = cls._strip_state_prefix(state, "module.")
+        state = cls._strip_state_prefix(state, "emb_gen.")
+        return state
+
+    def load_embedding_generator_checkpoint(self, checkpoint_path: str, strict: bool = True):
+        state = self.load_embedding_generator_state(checkpoint_path)
+        return self.emb_gen.load_state_dict(state, strict=strict)
+
+    def save_embedding_generator_checkpoint(self, output_dir: str, tokenizer_mlm=None, tokenizer_task=None) -> str:
+        output_path = Path(output_dir)
+        output_path.mkdir(parents=True, exist_ok=True)
+        torch.save(self.emb_gen.state_dict(), output_path / "pytorch_model.bin")
+        if tokenizer_mlm is not None:
+            tokenizer_mlm.save_pretrained(output_path / "tokenizerMLM")
+        if tokenizer_task is not None:
+            tokenizer_task.save_pretrained(output_path / "tokenizerTask")
+        return str(output_path)
+
+    @classmethod
+    def from_checkpoint(
+        cls,
+        checkpoint_path: str,
+        device: Optional[str] = None,
+        first_lm: str = "roberta-large",
+        second_lm: Optional[str] = None,
+        layer: int = 1,
+        num_feature_layers: int = 1,
+        num_layers: int = 1,
+        distillation_temp: float = 1.0,
+        strict: bool = True,
+        return_tokenizers: bool = False,
+    ):
+        if "roberta" not in first_lm.lower():
+            raise ValueError(f"Checkpoint loading only supports RoBERTa first_lm checkpoints, got {first_lm!r}.")
+        if device is None:
+            device = "cuda" if torch.cuda.is_available() else "cpu"
+        if second_lm is None:
+            from .arguments import DEFAULT_LLAMA_PATH
+
+            second_lm = DEFAULT_LLAMA_PATH
+
+        from transformers import AutoTokenizer, LlamaForCausalLM, LlamaTokenizer, RobertaForMaskedLM
+
+        from .configs import AggregatorConfig
+
+        tokenizer_mlm = AutoTokenizer.from_pretrained(
+            cls.resolve_checkpoint_child(checkpoint_path, "tokenizerMLM"),
+            use_fast=False,
+        )
+        tokenizer_task = LlamaTokenizer.from_pretrained(
+            cls.resolve_checkpoint_child(checkpoint_path, "tokenizerTask"),
+            use_fast=False,
+            legacy=True,
+        )
+        nonces = list(tokenizer_task.get_added_vocab().keys())
+        if not nonces:
+            nonces = ["<nonce>"]
+            tokenizer_mlm.add_tokens(nonces)
+            tokenizer_task.add_tokens(nonces)
+
+        first_model = RobertaForMaskedLM.from_pretrained(first_lm, low_cpu_mem_usage=True)
+        second_model = LlamaForCausalLM.from_pretrained(second_lm, low_cpu_mem_usage=True)
+        layers = [-index for index in range(layer, layer + num_feature_layers)]
+        model = cls(
+            first_model,
+            second_model,
+            len(nonces),
+            layers,
+            tokenizer_mlm.mask_token_id,
+            AggregatorConfig(),
+            num_layers,
+            distillation_temp=distillation_temp,
+        ).to(device)
+        model.load_embedding_generator_checkpoint(checkpoint_path, strict=strict)
+        model.device = device
+        model.firstLM.eval()
+        model.secondLM.eval()
+        model.eval()
+
+        if return_tokenizers:
+            return model, tokenizer_mlm, tokenizer_task
+        return model
 
     @property
     def first_list(self) -> List[int]:
@@ -546,6 +667,3 @@ class MorphMemoryModelLlama(nn.Module):
             new_token_loss=final_new_token_loss,
             memories=final_memories,
         )
-
-
-MorphMemoryModelLLAMA = MorphMemoryModelLlama
