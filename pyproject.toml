@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "college"
+version = "0.1.0"
+description = "CoLLEGe few-shot lexical learning experiments."
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+    "accelerate",
+    "datasets",
+    "numpy",
+    "psutil",
+    "safetensors",
+    "torch",
+    "tqdm",
+    "transformers",
+]
+
+[project.scripts]
+college-train-llama = "college.train_with_llama:main"
+college-eval-gre = "college.evaluation.gre:main"
+college-eval-oxford = "college.evaluation.oxford:main"
+college-eval-twitter = "college.evaluation.twitter:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
